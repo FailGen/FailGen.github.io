@@ -1,3 +1,3 @@
-# Differential Prompting
+# FailGen
  
 Dataset will be uploaded soon.
