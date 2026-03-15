@@ -18,7 +18,7 @@ timezone: Asia/Shanghai
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 # ↓ --------------------------
 
-title: Differential Prompting                          # the main title
+title: FailGen                          # the main title
 
 tagline: Find Failing Tests Easier   # it will display as the sub-title
 
