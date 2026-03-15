@@ -26,7 +26,7 @@ description: >-                        # used by seo meta and the atom feed
   Unlocking ChatGPT to Find Failing Tests with Differential Prompting.
 
 # fill in the protocol & hostname for your site, e.g., 'https://username.github.io'
-url: 'https://differential-prompting.github.io'
+url: 'https://failgen.github.io'
 
 github:
   username: FailGen             # change to your github username
