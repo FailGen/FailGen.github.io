@@ -1,79 +1,213 @@
----
-# the default layout is 'page'
-icon: fas fa-info-circle
-order: 1
----
-
-# Differential Prompting
-
-## Demo
-
-<iframe width="896" height="504" src="https://www.youtube.com/embed/BKdGuEy--UQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> 
+# DiffTrust + Code World Models
 
 ## Description
+This pipeline combines **DiffTrust** and **Code World Models** to identify failure-inducing test cases without requiring explicit oracles.
 
-Differential Prompting is an approach that can effectively find failure-inducing test cases with the help of the compliable code synthesized by the inferred intention. This command line tool allows users to interact with ChatGPT to automatically generate intention, code, and test input pools.
+The workflow proceeds in four stages:
+
+1. **DiffTrust** is used to obtain reference programs and identify consistent outputs.
+2. **Code World Models** analyzes the characteristics of these consistent outputs.
+3. **Code World Models** further examines inconsistent outputs and retains those that satisfy the discovered characteristics.
+4. **Code World Models** extracts failing tests from the final filtered input-output pairs.
+
+This design enables a structured process from reference program generation to failing test discovery.
+
+---
 
 ## Installation
 
-1. Clone or download our code to your local machine:
+Clone or download the required repositories to your local machine.
 
-   ```bash
-   git clone https://github.com/differential-prompting/dfprompting-database
-   ```
+### DiffTrust
+Install the required dependencies:
 
-2. Install the required packages:
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
 
-   ```bash
-   pip install -r requirements.txt
-   ```
+### Code World Models
+Install the required environment:
+
+```bash
+conda env create -f environment.yml --name codeworldmodels
+conda activate codeworldmodels
+```
+
+This project also requires **MuJoCo** to be installed. Please follow the official MuJoCo installation instructions.
+
+For the **RTFM** environment, install the customized version from the project root directory:
+
+```bash
+cd RTFM
+pip install -e .
+```
+
+---
 
 ## Usage
 
-To use the command line tool, run the following command:
+To run the full workflow, first use **DiffTrust** to obtain reference programs and consistent outputs, and then use **Code World Models** to analyze, filter, and extract failing tests.
+
+### Step 1: Run DiffTrust
+Each dataset folder contains a `run.py` script that reproduces the experimental setup.
+
+Example:
 
 ```bash
-python -m diffPrompt [OPTIONS] COMMAND [ARGS]...
+python HumanEval/run.py
 ```
 
-The available options and commands are:
-
-```
-Usage: python -m diffPrompt [OPTIONS] COMMAND [ARGS]...
-
-Options:
-  --version         Show the version and exit.
-  --model TEXT      The OpenAI model type.
-  --code_path TEXT  The code path which need to be tested.
-  --proxy TEXT      Weather use proxy.
-  --help            Show this message and exit.
-
-Commands:
-  update  Update the OpenAI API key.
-```
-
-#### Example
-
-Update an OpenAI API key:
+or
 
 ```bash
-python -m diffPrompt update
+python MBPP/run.py
 ```
 
-Generate intention, codes and test inputs pool for given code.
+#### Key Parameters
+The following parameters are configured in `run.py`:
+
+- `llm_name`: Name of the LLM to use (e.g., `"gpt_4"`, `"claude_opus_4"`)
+- `nb_candidate`: Number of candidate programs to sample per task (default: `10`)
+- `nb_sample`: Number of test inputs per comparison (default: `1000`)
+- `temperature`: Sampling temperature for the LLM (default: `0.0`)
+- `timeout`: Maximum execution time per comparison (default: `60` seconds)
+
+At this stage, DiffTrust provides reference programs and identifies outputs with high semantic consistency.
+
+### Step 2: Run Code World Models
+For each experiment, specify the underlying LLM using the `--model` argument.
+
+If `'gpt'` is included in the model name, create a folder named `openai` in the project root and include the following files:
+
+- `openai_key`
+- `openai_org`
+
+Otherwise, the model will be loaded from the Transformers library.
+
+The total number of LLM calls is controlled by the `--budget` argument.
+
+For the APPS experiment, first download the dataset:
 
 ```bash
- python -m diffPrompt --code_path example\example_code.py --proxy True 
- 
- ---
- Generate intention
- Waiting for chatgpt...
- ....
- ....
- ....
- Done and save the results in :Results/example_code.py_dbd51d 
+./sh_scripts/download_apps_data.sh
 ```
 
-Once the command is executed, the results will be saved in the `Results` directory.
+Then run the experiment:
 
-Overall, this optimized instruction should be easier for users to understand and follow.
+```bash
+python3 src/experiments/run_mcts_apps_all_prob.py --idx 0 --total_tasks 100 --model <MODEL_NAME> --budget <BUDGET>
+```
+
+At this stage:
+
+- consistent outputs are analyzed to infer their shared characteristics,
+- inconsistent outputs are filtered according to these characteristics,
+- and failing tests are extracted from the final selected input-output pairs.
+
+---
+
+## Example
+
+Run DiffTrust on HumanEval:
+
+```bash
+python HumanEval/run.py
+```
+
+Run Code World Models on APPS:
+
+```bash
+python3 src/experiments/run_mcts_apps_all_prob.py --idx 0 --total_tasks 100 --model gpt-4 --budget 100
+```
+
+---
+
+## Output
+After execution, the pipeline produces the following results:
+
+- reference programs generated by DiffTrust,
+- outputs identified as consistent,
+- characteristic analysis of consistent outputs by Code World Models,
+- filtered outputs selected from inconsistent candidates,
+- failing tests extracted from the final input-output pairs.
+
+---
+
+## Project Structure
+
+### DiffTrust
+```text
+.
+├── HumanEval
+│   ├── instance.py
+│   ├── remove_duplicates.py
+│   ├── run.py
+│   └── stats.py
+├── MBPP
+│   ├── instance.py
+│   ├── remove_duplicates.py
+│   ├── run.py
+│   └── stats.py
+├── README.md
+├── difftrust
+│   ├── config.json
+│   ├── config.py
+│   ├── core
+│   │   ├── checking.py
+│   │   ├── coder.py
+│   │   ├── experiment.py
+│   │   ├── function.py
+│   │   ├── metrics.py
+│   │   ├── refiner.py
+│   │   └── specification.py
+│   ├── fuzzer
+│   │   ├── coverage.py
+│   │   └── fuzzer.py
+│   ├── generic
+│   │   ├── generic_equal.py
+│   │   ├── generic_explorer.py
+│   │   ├── generic_fuzzer.py
+│   │   ├── generic_mutator.py
+│   │   └── generic_repr.py
+│   ├── llm
+│   │   ├── abstract.py
+│   │   ├── chat.py
+│   │   ├── chatgpt.py
+│   │   ├── claude.py
+│   │   ├── gemini.py
+│   │   ├── open_router.py
+│   │   └── open_router_models.json
+│   ├── rqs
+│   │   ├── ablation.py
+│   │   ├── aggregate-plots
+│   │   ├── constants.py
+│   │   ├── costs_calculation.py
+│   │   ├── counter.py
+│   │   ├── custom_classes.py
+│   │   ├── latex.py
+│   │   ├── plots.py
+│   │   ├── rq_utils.py
+│   │   └── utils.py
+│   └── tracing
+│       ├── events.py
+│       └── tracer.py
+└── requirements.txt
+```
+
+### Code World Models
+Code for the *Generating Code World Models with Large Language Models Guided by Monte Carlo Tree Search* paper published at **NeurIPS 2024**.
+
+Project webpage:  
+https://sites.google.com/view/code-world-models/home
+
+---
+
+## License
+- **DiffTrust**: MIT License
+- **Code World Models**: Please refer to the corresponding repository for license and usage details.
+
+---
+
+Overall, this README presents a unified workflow in which DiffTrust is used to obtain reference programs and consistent outputs, while Code World Models is used to analyze output characteristics, filter candidate behaviors, and identify failing tests.
