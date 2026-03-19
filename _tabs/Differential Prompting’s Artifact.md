@@ -1,7 +1,7 @@
-# DiffTrust + Code World Models
+# FailGen
 
 ## Description
-This pipeline combines **DiffTrust** and **Code World Models** to identify failure-inducing test cases without requiring explicit oracles.
+**FailGen** combines **DiffTrust** and **Code World Models** to identify failure-inducing test cases without requiring explicit oracles.
 
 The workflow proceeds in four stages:
 
