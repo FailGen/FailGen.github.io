@@ -5,17 +5,36 @@ order: 1
 ---
 # FailGen
 
-## Description
-**FailGen** combines **DiffTrust** and **Code World Models** to identify failure-inducing test cases without requiring explicit oracles.
+FailGen is a unified framework for automatically identifying failure-inducing test cases **without requiring explicit oracles**. It integrates and extends ideas from **DiffTrust** and **Code World Models** to build a structured pipeline from reference program generation to failing test discovery.
 
-The workflow proceeds in four stages:
+## Overview
 
-1. **DiffTrust** is used to obtain reference programs and identify consistent outputs.
-2. **Code World Models** analyzes the characteristics of these consistent outputs.
-3. **Code World Models** further examines inconsistent outputs and retains those that satisfy the discovered characteristics.
-4. **Code World Models** extracts failing tests from the final filtered input-output pairs.
+FailGen consists of four stages:
 
-This design enables a structured process from reference program generation to failing test discovery.
+1. **Input Expansion and Reference Program Generation**  
+   Additional inputs are generated through mutation to support output analysis. Reference programs for the target program under analysis are obtained as a separate step. Based on the reference programs and the generated inputs, the system identifies consistent outputs.
+
+2. **Consistent Output Characterization**  
+   The consistent outputs are analyzed with **dual MCTS** to infer their shared behavioral characteristics.
+
+3. **Inconsistent Output Filtering**  
+   Outputs that are initially inconsistent are further examined, and only those that satisfy the learned characteristics are retained.
+
+4. **Failing Test Extraction**  
+   Failing test cases are extracted from the final filtered input-output pairs.
+
+This workflow provides an end-to-end process for reference program construction, consistency analysis, behavioral filtering, and failure-inducing test generation.
+
+---
+
+## Features
+
+- No explicit oracle is required.
+- Combines **DiffTrust** and **Code World Models** into a single workflow.
+- Uses mutation to expand candidate inputs.
+- Uses **dual MCTS** to model the characteristics of consistent outputs.
+- Filters inconsistent outputs based on learned behavioral patterns.
+- Extracts failure-inducing test cases from selected input-output pairs.
 
 ---
 
@@ -23,7 +42,8 @@ This design enables a structured process from reference program generation to fa
 
 Clone or download the required repositories to your local machine.
 
-### DiffTrust
+### 1. DiffTrust
+
 Install the required dependencies:
 
 ```bash
@@ -32,187 +52,131 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### Code World Models
-Install the required environment:
+### 2. Code World Models
+
+Create and activate the conda environment:
 
 ```bash
 conda env create -f environment.yml --name codeworldmodels
 conda activate codeworldmodels
 ```
 
-This project also requires **MuJoCo** to be installed. Please follow the official MuJoCo installation instructions.
-
-For the **RTFM** environment, install the customized version from the project root directory:
-
-```bash
-cd RTFM
-pip install -e .
-```
+Code World Models requires several dependency packages. Please follow the official installation instructions to complete the setup.
 
 ---
 
 ## Usage
 
-To run the full workflow, first use **DiffTrust** to obtain reference programs and consistent outputs, and then use **Code World Models** to analyze, filter, and extract failing tests.
+To run the full pipeline, first use **DiffTrust** to obtain reference programs and consistent outputs, and then use **Code World Models** to analyze, filter, and extract failing tests.
 
 ### Step 1: Run DiffTrust
-Each dataset folder contains a `run.py` script that reproduces the experimental setup.
+
+Each dataset directory contains a `run.py` script for reproducing the experimental setup.
 
 Example:
 
 ```bash
-python HumanEval/run.py
+python CodeForces/run.py
 ```
 
-or
+or:
 
 ```bash
-python MBPP/run.py
+python SWE_Bench_Live/run.py
 ```
 
-#### Key Parameters
-The following parameters are configured in `run.py`:
+### Key Parameters
 
-- `llm_name`: Name of the LLM to use (e.g., `"gpt_4"`, `"claude_opus_4"`)
-- `nb_candidate`: Number of candidate programs to sample per task (default: `10`)
-- `nb_sample`: Number of test inputs per comparison (default: `1000`)
-- `temperature`: Sampling temperature for the LLM (default: `0.0`)
-- `timeout`: Maximum execution time per comparison (default: `60` seconds)
+The following parameters are typically configured in `run.py`:
 
-At this stage, DiffTrust provides reference programs and identifies outputs with high semantic consistency.
+- `llm_name`: the LLM to use (e.g., `"deepseek_v3"`, `"deepseek_r1"`)
+- `nb_candidate`: number of candidate programs sampled per task (default: `10`)
+- `nb_sample`: number of test inputs used per comparison (default: `1000`)
+- `temperature`: sampling temperature of the LLM (default: `0.0`)
+- `timeout`: maximum execution time per comparison in seconds (default: `60`)
+
+At this stage, DiffTrust is used to generate reference programs and identify semantically consistent outputs.
 
 ### Step 2: Run Code World Models
+
 For each experiment, specify the underlying LLM using the `--model` argument.
 
-If `'gpt'` is included in the model name, create a folder named `openai` in the project root and include the following files:
+If `'gpt'` appears in the model name, create a folder named `openai` in the project root and include the following files:
 
 - `openai_key`
 - `openai_org`
 
-Otherwise, the model will be loaded from the Transformers library.
+Otherwise, the model will be loaded through the Transformers library.
 
 The total number of LLM calls is controlled by the `--budget` argument.
 
-For the APPS experiment, first download the dataset:
-
-```bash
-./sh_scripts/download_apps_data.sh
-```
-
-Then run the experiment:
+Run the experiment:
 
 ```bash
 python3 src/experiments/run_mcts_apps_all_prob.py --idx 0 --total_tasks 100 --model <MODEL_NAME> --budget <BUDGET>
 ```
 
-At this stage:
+At this stage, the system will:
 
-- consistent outputs are analyzed to infer their shared characteristics,
-- inconsistent outputs are filtered according to these characteristics,
-- and failing tests are extracted from the final selected input-output pairs.
+- analyze consistent outputs to infer shared characteristics,
+- filter inconsistent outputs based on these characteristics,
+- extract failing tests from the final selected input-output pairs.
 
 ---
 
 ## Example
 
-Run DiffTrust on HumanEval:
+Run DiffTrust on CodeForces:
 
 ```bash
-python HumanEval/run.py
+python CodeForces/run.py
 ```
 
 Run Code World Models on APPS:
 
 ```bash
-python3 src/experiments/run_mcts_apps_all_prob.py --idx 0 --total_tasks 100 --model gpt-4 --budget 100
+python3 src/experiments/run_mcts_apps_all_prob.py --idx 0 --total_tasks 100 --model deepseek-v3 --budget 100
 ```
 
 ---
 
 ## Output
-After execution, the pipeline produces the following results:
+
+After execution, the pipeline produces:
 
 - reference programs generated by DiffTrust,
 - outputs identified as consistent,
-- characteristic analysis of consistent outputs by Code World Models,
-- filtered outputs selected from inconsistent candidates,
-- failing tests extracted from the final input-output pairs.
+- characteristic analysis results for consistent outputs,
+- filtered outputs selected from initially inconsistent candidates,
+- failure-inducing test cases extracted from the final input-output pairs.
 
 ---
 
-## Project Structure
+## Project Webpages
 
 ### DiffTrust
-```text
-.
-├── HumanEval
-│   ├── instance.py
-│   ├── remove_duplicates.py
-│   ├── run.py
-│   └── stats.py
-├── MBPP
-│   ├── instance.py
-│   ├── remove_duplicates.py
-│   ├── run.py
-│   └── stats.py
-├── README.md
-├── difftrust
-│   ├── config.json
-│   ├── config.py
-│   ├── core
-│   │   ├── checking.py
-│   │   ├── coder.py
-│   │   ├── experiment.py
-│   │   ├── function.py
-│   │   ├── metrics.py
-│   │   ├── refiner.py
-│   │   └── specification.py
-│   ├── fuzzer
-│   │   ├── coverage.py
-│   │   └── fuzzer.py
-│   ├── generic
-│   │   ├── generic_equal.py
-│   │   ├── generic_explorer.py
-│   │   ├── generic_fuzzer.py
-│   │   ├── generic_mutator.py
-│   │   └── generic_repr.py
-│   ├── llm
-│   │   ├── abstract.py
-│   │   ├── chat.py
-│   │   ├── chatgpt.py
-│   │   ├── claude.py
-│   │   ├── gemini.py
-│   │   ├── open_router.py
-│   │   └── open_router_models.json
-│   ├── rqs
-│   │   ├── ablation.py
-│   │   ├── aggregate-plots
-│   │   ├── constants.py
-│   │   ├── costs_calculation.py
-│   │   ├── counter.py
-│   │   ├── custom_classes.py
-│   │   ├── latex.py
-│   │   ├── plots.py
-│   │   ├── rq_utils.py
-│   │   └── utils.py
-│   └── tracing
-│       ├── events.py
-│       └── tracer.py
-└── requirements.txt
-```
+https://github.com/mpi-softsec/DiffTrust
 
 ### Code World Models
-Code for the *Generating Code World Models with Large Language Models Guided by Monte Carlo Tree Search* paper published at **NeurIPS 2024**.
-
-Project webpage:  
-https://sites.google.com/view/code-world-models/home
+https://github.com/nicoladainese96/code-world-models
 
 ---
 
-## License
-- **DiffTrust**: MIT License
-- **Code World Models**: Please refer to the corresponding repository for license and usage details.
+## Acknowledgment
+
+FailGen builds upon the following projects:
+
+- **DiffTrust**: for reference program generation and consistency-based correctness estimation
+- **Code World Models**: for behavioral modeling and search over candidate input-output trajectories
+
+We thank the original authors for making their code and ideas publicly available.
 
 ---
 
-Overall, this README presents a unified workflow in which DiffTrust is used to obtain reference programs and consistent outputs, while Code World Models is used to analyze output characteristics, filter candidate behaviors, and identify failing tests.
+## Summary
+
+FailGen provides a unified GitHub-style workflow in which:
+
+- **DiffTrust** is used to generate reference programs and identify consistent outputs,
+- **Code World Models** is used to model output characteristics and filter candidate behaviors,
+- and the final filtered results are used to extract failure-inducing test cases.
