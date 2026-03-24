@@ -101,7 +101,7 @@ At this stage, DiffTrust is used to generate reference programs and identify sem
 
 For each experiment, specify the underlying LLM using the `--model` argument.
 
-If `'gpt'` appears in the model name, create a folder named `openai` in the project root and include the following files:
+If `'deepseek'` appears in the model name, create a folder named `openai` in the project root and include the following files:
 
 - `openai_key`
 - `openai_org`
