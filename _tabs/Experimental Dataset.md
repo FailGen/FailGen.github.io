@@ -32,13 +32,17 @@ order: 2
 [**Download reference versions inferred by FailGen (RQ2)**](https://github.com/FailGen/FailGen.github.io/blob/main/Data/Reference%20versions/Reference%20versions-RQ2.rar)
 
 ## Reference Outputs
-> A dataset of reference outputs inferred by FailGen.
+> A dataset of reference outputs inferred by FailGen(Consistent-only) and baselines.
 {: .prompt-tip }
 
-[**Download Reference Outputs inferred by FailGen (RQ2)**](https://github.com/FailGen/FailGen.github.io/blob/main/Data/Reference%20outputs/Reference%20outputs-RQ3.rar)
+[**Download reference outputs inferred by Consistent-only (RQ2)**](https://github.com/FailGen/FailGen.github.io/blob/main/Data/Reference%20outputs/Reference%20outputs-RQ3-Consistent-only.rar)
+
+[**Download reference outputs inferred by Majority-voting (RQ2)**]
+
+[**Download reference outputs inferred by Minority-voting (RQ2)**]
 
 ## Correct outputs
-> A dataset of correct outputs discriminated by FailGen and baselines.
+> A dataset of correct outputs discriminated by FailGen(Dual-adversarial MCTS) and baselines.
 {: .prompt-tip }
 
 [**Download correct outputs found by Dual-adversarial MCTS (RQ3)**](https://github.com/FailGen/FailGen.github.io/blob/main/Data/Correct%20outputs/Correct%20outputs-RQ3-Dual-adversarial-MCTS.rar)
