@@ -45,16 +45,16 @@ order: 2
 > A dataset of correct outputs discriminated by FailGen(Dual-adversarial MCTS) and baselines.
 {: .prompt-tip }
 
-[**Download correct outputs found by Dual-adversarial MCTS (RQ3)**](https://github.com/FailGen/FailGen.github.io/blob/main/Data/Correct%20outputs/Correct%20outputs-RQ3-Dual-adversarial-MCTS.rar)
+[**Download correct outputs discriminated by Dual-adversarial MCTS (RQ3)**](https://github.com/FailGen/FailGen.github.io/blob/main/Data/Correct%20outputs/Correct%20outputs-RQ3-Dual-adversarial-MCTS.rar)
 
-[**Download correct outputs found by Consistent-only (RQ3)**].
+[**Download correct outputs discriminated by Consistent-only (RQ3)**].
 
-[**Download correct outputs found by Majority-voting (RQ3)**].
+[**Download correct outputs discriminated by Majority-voting (RQ3)**].
 
-[**Download correct outputs found by Minority-voting (RQ3)**].
+[**Download correct outputs discriminated by Minority-voting (RQ3)**].
 
-[**Download correct outputs found by MCTS without negative sample (RQ3)**].
+[**Download correct outputs discriminated by MCTS without negative sample (RQ3)**].
 
-[**Download correct outputs found by MCTS with random negative samples (RQ3)**].
+[**Download correct outputs discriminated by MCTS with random negative samples (RQ3)**].
 
-[**Download correct outputs found by MCTS with ground-truth passing tests (RQ3)**].
+[**Download correct outputs discriminated by MCTS with ground-truth passing tests (RQ3)**].
