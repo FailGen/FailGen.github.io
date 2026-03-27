@@ -45,7 +45,7 @@ order: 2
 > A dataset of correct outputs discriminated by FailGen(Dual-adversarial MCTS) and baselines.
 {: .prompt-tip }
 
-[**Download correct outputs discriminated by Dual-adversarial MCTS (RQ3)**](https://github.com/FailGen/FailGen.github.io/blob/main/Data/Correct%20outputs/Correct%20outputs-RQ2=3-Dual-adversarial-MCTS.zip)
+[**Download correct outputs discriminated by Dual-adversarial MCTS (RQ3)**](https://github.com/FailGen/FailGen.github.io/blob/main/Data/Correct%20outputs/Correct%20outputs-RQ3-Dual-adversarial-MCTS.zip)
 
 [**Download correct outputs discriminated by Consistent-only (RQ3)**].
 
