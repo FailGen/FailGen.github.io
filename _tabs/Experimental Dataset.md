@@ -9,7 +9,7 @@ order: 2
 > A dataset of failure-inducing test cases found by FailGen and baselines.
 {: .prompt-tip }
 
-[**Download failure-inducing test cases found by FailGen (RQ1)**](https://github.com/FailGen/FailGen.github.io/blob/main/Data/Failure-inducing%20test%20cases/Failure-inducing%20test%20cases-RQ1-FailGen.rar)
+[**Download failure-inducing test cases found by FailGen (RQ1)**](https://github.com/FailGen/FailGen.github.io/blob/main/Data/Failure-inducing%20test%20cases/Failure-inducing%20test%20cases-RQ1-FailGen.zip)
 
 [**Download failure-inducing test cases found by Differential Prompting (RQ1)**].
 
@@ -23,7 +23,7 @@ order: 2
 > A dataset of Codeforces programs used in RQ2.
 {: .prompt-tip }
 
-[**Download Codeforces programs used in RQ2**](https://github.com/FailGen/FailGen.github.io/blob/main/Data/Codeforces%20programs/Codeforces%20programs.rar)
+[**Download Codeforces programs used in RQ2**](https://github.com/FailGen/FailGen.github.io/blob/main/Data/Codeforces%20programs/Codeforces%20programs-RQ2.zip)
 
 ## Reference Versions
 > A dataset of reference versions inferred by FailGen.
@@ -35,7 +35,7 @@ order: 2
 > A dataset of reference outputs inferred by FailGen(Consistent-only) and baselines.
 {: .prompt-tip }
 
-[**Download reference outputs inferred by Consistent-only (RQ2)**](https://github.com/FailGen/FailGen.github.io/blob/main/Data/Reference%20outputs/Reference%20outputs-RQ3-Consistent-only.rar)
+[**Download reference outputs inferred by Consistent-only (RQ2)**](https://github.com/FailGen/FailGen.github.io/blob/main/Data/Reference%20outputs/Reference%20outputs-RQ2-Consistent-only.zip)
 
 [**Download reference outputs inferred by Majority-voting (RQ2)**]
 
@@ -45,7 +45,7 @@ order: 2
 > A dataset of correct outputs discriminated by FailGen(Dual-adversarial MCTS) and baselines.
 {: .prompt-tip }
 
-[**Download correct outputs discriminated by Dual-adversarial MCTS (RQ3)**](https://github.com/FailGen/FailGen.github.io/blob/main/Data/Correct%20outputs/Correct%20outputs-RQ3-Dual-adversarial-MCTS.rar)
+[**Download correct outputs discriminated by Dual-adversarial MCTS (RQ3)**](https://github.com/FailGen/FailGen.github.io/blob/main/Data/Correct%20outputs/Correct%20outputs-RQ2=3-Dual-adversarial-MCTS.zip)
 
 [**Download correct outputs discriminated by Consistent-only (RQ3)**].
 
