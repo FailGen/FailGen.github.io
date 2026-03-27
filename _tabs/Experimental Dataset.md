@@ -29,7 +29,7 @@ order: 2
 > A dataset of reference versions inferred by FailGen.
 {: .prompt-tip }
 
-[**Download reference versions inferred by FailGen (RQ2)**](https://github.com/FailGen/FailGen.github.io/blob/main/Data/Reference%20versions/Reference%20versions-RQ2.rar)
+[**Download reference versions inferred by FailGen (RQ2)**](https://github.com/FailGen/FailGen.github.io/blob/main/Data/Reference%20versions/Reference%20versions-RQ2.zip)
 
 ## Reference Outputs
 > A dataset of reference outputs inferred by FailGen(Consistent-only) and baselines.
