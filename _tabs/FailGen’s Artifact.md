@@ -154,6 +154,9 @@ After execution, the pipeline produces:
 
 ## Project Webpages
 
+### FailGen
+https://github.com/FailGen/FailGen
+
 ### DiffTrust
 https://github.com/mpi-softsec/DiffTrust
 
