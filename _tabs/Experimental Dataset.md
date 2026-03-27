@@ -1,4 +1,4 @@
----
+<img width="387" height="81" alt="image" src="https://github.com/user-attachments/assets/ac902d0e-f461-4639-9cbd-1a6e66645828" />---
 # the default layout is 'page'
 icon: fas fa-info-circle
 order: 2
@@ -6,35 +6,51 @@ order: 2
 
 
 ## Failure-Inducing Test Cases
-> A dataset of failure-inducing test cases found by Differential Prompting and baselines.
+> A dataset of failure-inducing test cases found by FailGen and baselines.
 {: .prompt-tip }
 
-[**Download 1200 failure-inducing test cases found from buggy program (RQ1)**](https://github.com/differential-prompting/differential-prompting.github.io/blob/main/Data/Failure-inducing%20test%20cases/Failure-inducing%20test%20cases-RQ1-buggy.rar)
+[**Download failure-inducing test cases found by FailGen (RQ1)**](https://github.com/FailGen/FailGen.github.io/blob/main/Data/Failure-inducing%20test%20cases/Failure-inducing%20test%20cases-RQ1-FailGen.rar)
 
-[**Download 1200 failure-inducing test cases found from correct program (RQ1)**](https://github.com/differential-prompting/differential-prompting.github.io/blob/main/Data/Failure-inducing%20test%20cases/Failure-inducing%20test%20cases-RQ1-correct.rar)
+[**Download failure-inducing test cases found by Differential Prompting (RQ1)**].
 
-[**Download 210 failure-inducing test cases found from buggy program (RQ4)**](https://github.com/differential-prompting/differential-prompting.github.io/blob/main/Data/Failure-inducing%20test%20cases/Failure-inducing%20test%20cases-RQ4-buggy.rar)
+[**Download failure-inducing test cases found by TrickCatcher (RQ1)**].
 
-[**Download 210 failure-inducing test cases found from correct program (RQ4)**](https://github.com/differential-prompting/differential-prompting.github.io/blob/main/Data/Failure-inducing%20test%20cases/Failure-inducing%20test%20cases-RQ4-correct.rar)
+[**Download failure-inducing test cases found by MitGen (RQ1)**].
 
-## Intentions
-> A dataset of 470 intentions inferred by Differential Prompting.
-{: .prompt-tip }    
-
-[**Download 400 intentions used in RQ2**](https://github.com/differential-prompting/differential-prompting.github.io/blob/main/Data/Intentions/Intentions-RQ2-Quixbugs.rar)
-
-[**Download 70 intentions used in RQ4**](https://github.com/differential-prompting/differential-prompting.github.io/blob/main/Data/Intentions/Intentions-RQ4-codeforces.rar)
-
-## Reference Versions
-> A dataset of 940 reference versions inferred by Differential Prompting and baselines.
-{: .prompt-tip }
-
-[**Download 800 reference versions used in RQ3**](https://github.com/differential-prompting/differential-prompting.github.io/blob/main/Data/Reference%20versions/Reference%20versions-RQ3-Quixbugs.rar)
-
-[**Download 140 reference versions used in RQ4**](https://github.com/differential-prompting/differential-prompting.github.io/blob/main/Data/Reference%20versions/Reference%20versions-RQ4-codeforces.rar)
+[**Download failure-inducing test cases found by DirectChat (RQ1)**].
 
 ## Codeforces Programs
-> A dataset of 14 Codeforces programs studied in RQ4.
+> A dataset of Codeforces programs used in RQ2.
 {: .prompt-tip }
 
-[**Download 14 Codeforces programs used in RQ4**](https://github.com/differential-prompting/differential-prompting.github.io/blob/main/Data/Codeforces%20programs/Codeforces%20programs.rar)
+[**Download Codeforces programs used in RQ2**](https://github.com/FailGen/FailGen.github.io/blob/main/Data/Codeforces%20programs/Codeforces%20programs.rar)
+
+## Reference Versions
+> A dataset of reference versions inferred by FailGen.
+{: .prompt-tip }
+
+[**Download reference versions inferred by FailGen (RQ2)**](https://github.com/FailGen/FailGen.github.io/blob/main/Data/Reference%20versions/Reference%20versions-RQ2.rar)
+
+## Reference Outputs
+> A dataset of reference outputs inferred by FailGen.
+{: .prompt-tip }
+
+[**Download Reference Outputs inferred by FailGen (RQ2)**](https://github.com/FailGen/FailGen.github.io/blob/main/Data/Reference%20outputs/Reference%20outputs-RQ3.rar)
+
+## Correct outputs
+> A dataset of correct outputs discriminated by FailGen and baselines.
+{: .prompt-tip }
+
+[**Download correct outputs found by Dual-adversarial MCTS (RQ3)**](https://github.com/FailGen/FailGen.github.io/blob/main/Data/Correct%20outputs/Correct%20outputs-RQ3-Dual-adversarial-MCTS.rar)
+
+[**Download correct outputs found by Consistent-only (RQ3)**].
+
+[**Download correct outputs found by Majority-voting (RQ3)**].
+
+[**Download correct outputs found by Minority-voting (RQ3)**].
+
+[**Download correct outputs found by MCTS without negative sample (RQ3)**].
+
+[**Download correct outputs found by MCTS with random negative samples (RQ3)**].
+
+[**Download correct outputs found by MCTS with ground-truth passing tests (RQ3)**].
