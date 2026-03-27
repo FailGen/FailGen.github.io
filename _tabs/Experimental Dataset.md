@@ -1,4 +1,4 @@
-<img width="387" height="81" alt="image" src="https://github.com/user-attachments/assets/ac902d0e-f461-4639-9cbd-1a6e66645828" />---
+---
 # the default layout is 'page'
 icon: fas fa-info-circle
 order: 2
