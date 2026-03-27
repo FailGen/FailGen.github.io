@@ -2,9 +2,9 @@
   The Side Bar
 -->
 
-<div id="sidebar" class="academic-sidebar d-flex flex-column align-items-end">
-  <div class="profile-wrapper text-center w-100">
-    <div id="avatar" class="academic-avatar">
+<div id="sidebar" class="d-flex flex-column align-items-end">
+  <div class="profile-wrapper text-center">
+    <div id="avatar">
       <a href="{{ '/' | relative_url }}" class="mx-auto">
         {% if site.avatar != empty and site.avatar %}
           {% capture avatar_url %}
@@ -21,45 +21,53 @@
       </a>
     </div>
 
-    <div class="site-title academic-title">
+    <div class="site-title">
       <a href="{{ '/' | relative_url }}">{{ site.title }}</a>
     </div>
+    <div class="site-subtitle font-italic">{{ site.tagline }}</div>
 
-    <div class="site-subtitle academic-subtitle">
-      {{ site.tagline }}
-    </div>
   </div><!-- .profile-wrapper -->
 
-  <nav class="academic-nav w-100">
-    <ul class="w-100">
+  <ul class="w-100">
 
-      <!-- home -->
-      <li class="nav-item{% if page.layout == 'home' %} active{% endif %}">
-        <a href="{{ '/' | relative_url }}" class="nav-link">
-          <i class="fa-fw fas fa-home unloaded"></i>
-          <span>{{ site.data.locales[site.lang].tabs.home | upcase }}</span>
-        </a>
-      </li>
+    <!-- home -->
+    <li class="nav-item{% if page.layout == 'home' %}{{ " active" }}{% endif %}">
+      <a href="{{ '/' | relative_url }}" class="nav-link">
+        <i class="fa-fw fas fa-home ml-xl-3 mr-xl-3 unloaded"></i>
+        <span>{{ site.data.locales[site.lang].tabs.home | upcase }}</span>
+      </a>
+    </li>
+    <!-- the real tabs -->
+    {% for tab in site.tabs %}
+    <li class="nav-item{% if tab.url == page.url %}{{ " active" }}{% endif %}">
+      <a href="{{ tab.url | relative_url }}" class="nav-link">
+        <i class="fa-fw {{ tab.icon }} ml-xl-3 mr-xl-3 unloaded"></i>
+        {% capture tab_name %}{{ tab.url | split: '/' }}{% endcapture %}
 
-      <!-- the real tabs -->
-      {% for tab in site.tabs %}
-      <li class="nav-item{% if tab.url == page.url %} active{% endif %}">
-        <a href="{{ tab.url | relative_url }}" class="nav-link">
-          <i class="fa-fw {{ tab.icon }} unloaded"></i>
-          {% capture tab_name %}{{ tab.url | split: '/' }}{% endcapture %}
-          <span>{{ site.data.locales[site.lang].tabs.[tab_name] | default: tab.title | upcase }}</span>
-        </a>
-      </li>
-      {% endfor %}
+        <span>{{ site.data.locales[site.lang].tabs.[tab_name] | default: tab.title | upcase }}</span>
+      </a>
+    </li> <!-- .nav-item -->
+    {% endfor %}
 
-    </ul>
-  </nav>
+  </ul> <!-- ul.nav.flex-column -->
 
-  <div class="sidebar-bottom academic-bottom mt-auto d-flex flex-wrap justify-content-center align-items-center">
+  <div class="sidebar-bottom mt-auto d-flex flex-wrap justify-content-center align-items-center">
+
+    <!-- {% unless site.theme_mode %}
+      <button class="mode-toggle btn" aria-label="Switch Mode">
+        <i class="fas fa-adjust"></i>
+      </button>
+
+      {% if site.data.contact.size > 0 %}
+        <span class="icon-border"></span>
+      {% endif %}
+    {% endunless %} -->
+
     {% for entry in site.data.contact %}
       {% capture url %}
         {%- if entry.type == 'github' -%}
           https://github.com/{{ site.github.username }}
+
         {%- endif -%}
       {% endcapture %}
 
@@ -69,143 +77,9 @@
         <i class="{{ entry.icon }}"></i>
       </a>
       {% endif %}
+
     {% endfor %}
-  </div><!-- .sidebar-bottom -->
+
+  </div> <!-- .sidebar-bottom -->
+
 </div><!-- #sidebar -->
-<style>
-/* =========================
-   Academic Sidebar Style
-   ========================= */
-
-#sidebar.academic-sidebar {
-  background: #fcfcfd;
-  border-right: 1px solid #e5e7eb;
-  padding: 28px 20px 20px;
-  box-shadow: none;
-}
-
-#sidebar .profile-wrapper {
-  padding-bottom: 22px;
-  margin-bottom: 18px;
-  border-bottom: 1px solid #eceff3;
-}
-
-#sidebar .academic-avatar {
-  margin-bottom: 16px;
-}
-
-#sidebar .academic-avatar img {
-  max-width: 84px;
-  max-height: 84px;
-  border-radius: 12px;
-  object-fit: cover;
-  border: 1px solid #e5e7eb;
-  padding: 4px;
-  background: #fff;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
-}
-
-#sidebar .academic-title {
-  margin-top: 6px;
-  margin-bottom: 6px;
-}
-
-#sidebar .academic-title a {
-  font-size: 1.28rem;
-  line-height: 1.35;
-  font-weight: 800;
-  color: #111827;
-  text-decoration: none;
-  letter-spacing: -0.01em;
-}
-
-#sidebar .academic-title a:hover {
-  color: #1f4e79;
-}
-
-#sidebar .academic-subtitle {
-  font-size: 0.92rem;
-  line-height: 1.65;
-  color: #6b7280;
-  font-style: normal !important;
-  max-width: 220px;
-  margin: 0 auto;
-}
-
-#sidebar .academic-nav ul {
-  padding-left: 0;
-  margin: 0;
-  list-style: none;
-}
-
-#sidebar .academic-nav .nav-item {
-  margin-bottom: 6px;
-}
-
-#sidebar .academic-nav .nav-link {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 12px;
-  border-radius: 8px;
-  color: #374151;
-  font-size: 0.95rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  text-decoration: none;
-  transition: all 0.2s ease;
-}
-
-#sidebar .academic-nav .nav-link i {
-  width: 18px;
-  text-align: center;
-  color: #6b7280;
-}
-
-#sidebar .academic-nav .nav-link span {
-  white-space: nowrap;
-}
-
-#sidebar .academic-nav .nav-link:hover {
-  background: #f3f4f6;
-  color: #111827;
-}
-
-#sidebar .academic-nav .nav-item.active .nav-link {
-  background: #eef4fa;
-  color: #1f4e79;
-  font-weight: 700;
-  border-left: 3px solid #1f4e79;
-  border-radius: 8px;
-}
-
-#sidebar .academic-nav .nav-item.active .nav-link i {
-  color: #1f4e79;
-}
-
-#sidebar .academic-bottom {
-  padding-top: 16px;
-  margin-top: 20px;
-  border-top: 1px solid #eceff3;
-  gap: 14px;
-}
-
-#sidebar .academic-bottom a {
-  color: #6b7280;
-  font-size: 1rem;
-  text-decoration: none;
-  transition: color 0.2s ease, transform 0.2s ease;
-}
-
-#sidebar .academic-bottom a:hover {
-  color: #1f4e79;
-  transform: translateY(-1px);
-}
-
-/* optional: sidebar wider and more formal */
-@media (min-width: 1200px) {
-  #sidebar.academic-sidebar {
-    width: 280px;
-  }
-}
-</style>
